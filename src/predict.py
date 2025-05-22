@@ -14,3 +14,7 @@ y_test contains the actual house prices (dependent variable)
 '''
 X_test = test_data.drop('House_Price', axis=1)
 y_test = test_data['House_Price'].copy()
+
+
+# Make Predictions Using the Model
+y_prediction = model.predict(X_test)
