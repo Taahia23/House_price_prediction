@@ -15,3 +15,11 @@ sample_data = {
 
 # Convert to DataFrame
 sample_data_df = pd.DataFrame([sample_data])
+
+# Load the trained model
+model = joblib.load('models/model_with_pipeline.pkl')
+
+# Make prediction
+result = model.predict(sample_data_df)
+
+print(f"Predicted House Price: ${result[0]:,.2f}")
