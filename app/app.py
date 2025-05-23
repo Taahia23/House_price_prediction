@@ -29,3 +29,33 @@ with col2:
     year_built = st.number_input("Year Built", min_value=1900, max_value=2023, value=2000)
     lot_size = st.number_input("Lot Size (acres)", min_value=0.1, value=0.5)
     neighborhood = st.slider("Neighborhood Quality (1-10)", 1, 10, 7)
+
+
+if st.button("Predict Price", type="primary"):
+   
+    input_data = pd.DataFrame([{
+        'Square_Footage': sqft,
+        'Num_Bedrooms': bedrooms,
+        'Num_Bathrooms': bathrooms,
+        'Year_Built': year_built,
+        'Lot_Size': lot_size,
+        'Garage_Size': 1,
+        'Neighborhood_Quality': neighborhood
+    }])
+    
+   
+    price = model.predict(input_data)[0]
+    
+    # Show result
+    st.success(f"### Predicted Price: ${price:,.2f}")
+    st.balloons()
+
+st.divider()
+st.write("""
+**How to use:**
+1. Fill in the property details
+2. Click "Predict Price"
+3. See the estimated value!
+
+*Note: This is a simple estimate based on machine learning.*
+""")
