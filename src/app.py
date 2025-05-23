@@ -12,3 +12,6 @@ sample_data = {
     'Neighborhood_Quality': 7
 }
 
+
+# Convert to DataFrame
+sample_data_df = pd.DataFrame([sample_data])
