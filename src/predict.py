@@ -1,7 +1,7 @@
 import joblib
 import pandas as pd
 
-model = joblib.load('models/model_with_pipeline.pkl')  # or 'models/mlp_model.pkl'
+model = joblib.load('models/mlp_model.pkl')
 
 
 # Load the Test Data
