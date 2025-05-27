@@ -118,4 +118,5 @@ joblib.dump(mlp, 'models/mlp_model.pkl')
 joblib.dump(scaler, 'models/scaler.pkl')
 joblib.dump(numeric_imputer, 'models/num_imputer.pkl')
 
+# print the models
 print('\nModels and preprocessors saved successfully.')
