@@ -30,7 +30,7 @@ train_set, test_set = train_test_split(data,
                                       random_state=42,
                                       stratify=data['price_cat'])
 
-# Drop the temporary price category column
+# Dropped the temporary price category column 
 train_set.drop('price_cat', axis=1, inplace=True)
 test_set.drop('price_cat', axis=1, inplace=True)
 
