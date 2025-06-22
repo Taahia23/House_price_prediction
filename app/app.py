@@ -1,21 +1,52 @@
 import streamlit as st
 import joblib
 import pandas as pd
-
+import os
+from pathlib import Path
 
 st.set_page_config(page_title="Simple House Price Predictor", layout="centered")
 st.title("Simple House Price Predictor")
 
+# Debugging - show current working directory
+st.write(f"Current working directory: {os.getcwd()}")
+st.write(f"App directory: {Path(__file__).parent.absolute()}")
 
 # Load your trained model
 @st.cache_data
 def load_model():
-    return joblib.load('models/model_with_pipeline.pkl')
+    try:
+        # Try multiple possible paths
+        possible_paths = [
+            Path(__file__).parent.parent / 'models' / 'model_with_pipeline.pkl',  # For local development
+            Path(__file__).parent / 'model_with_pipeline.pkl',  # If model is copied to app directory
+            Path('models/model_with_pipeline.pkl'),  # Relative path
+            Path('/mount/src/house_price_prediction/models/model_with_pipeline.pkl')  # For Streamlit Cloud
+        ]
+        
+        for path in possible_paths:
+            if path.exists():
+                st.write(f"Found model at: {path}")
+                return joblib.load(path)
+        
+        # If we get here, no path worked
+        available_files = list(Path(__file__).parent.glob('**/*'))
+        st.error(f"Model not found. Available files: {available_files}")
+        return None
+        
+    except Exception as e:
+        st.error(f"Failed to load model: {str(e)}")
+        return None
 
 model = load_model()
 
+if model is None:
+    st.error("""
+    ⚠️ Could not load the prediction model. 
+    Please check that 'model_with_pipeline.pkl' exists in the correct location.
+    """)
+    st.stop()
 
-# Input fields
+# Rest of your original code remains exactly the same...
 st.header("Enter Property Details")
 
 col1, col2 = st.columns(2)
@@ -30,9 +61,7 @@ with col2:
     lot_size = st.number_input("Lot Size (acres)", min_value=0.1, value=0.5)
     neighborhood = st.slider("Neighborhood Quality (1-10)", 1, 10, 7)
 
-
 if st.button("Predict Price", type="primary"):
-   
     input_data = pd.DataFrame([{
         'Square_Footage': sqft,
         'Num_Bedrooms': bedrooms,
@@ -43,10 +72,7 @@ if st.button("Predict Price", type="primary"):
         'Neighborhood_Quality': neighborhood
     }])
     
-   
     price = model.predict(input_data)[0]
-    
-    # Show result
     st.success(f"### Predicted Price: ${price:,.2f}")
     st.balloons()
 
