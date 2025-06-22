@@ -10,7 +10,7 @@ st.title("Simple House Price Predictor")
 # Load your trained model
 @st.cache_data
 def load_model():
-    return joblib.load('src/models/model_with_pipeline.pkl')
+    return joblib.load('models/model_with_pipeline.pkl')
 
 model = load_model()
 
