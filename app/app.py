@@ -22,7 +22,6 @@ def load_model():
         
         for path in possible_paths:
             if path.exists():
-                st.write(f"Found model at: {path}")
                 return joblib.load(path)
         
         # If we get here, no path worked
