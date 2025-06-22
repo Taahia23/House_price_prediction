@@ -7,9 +7,6 @@ from pathlib import Path
 st.set_page_config(page_title="Simple House Price Predictor", layout="centered")
 st.title("Simple House Price Predictor")
 
-# Debugging - show current working directory
-st.write(f"Current working directory: {os.getcwd()}")
-st.write(f"App directory: {Path(__file__).parent.absolute()}")
 
 # Load your trained model
 @st.cache_data
